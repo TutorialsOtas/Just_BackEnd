@@ -1,0 +1,11 @@
+{
+  "name": "backend-tutorial",
+  "version": "1.0.0",
+  "description": "Pedagogically curated by Snake",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "okai-tettey-antie-samuel",
+  "license": "MIT"
+}
