@@ -35,4 +35,56 @@ const registerUser = async (req, res) => {
     }
 };
 
-export {registerUser};
+const loginUser = async (req, res) => {
+    try {
+
+        //checking if user exists
+        const{email, password} = req.body;
+        const user = await User.findOne({
+            email: email.toLowerCase()
+        });
+
+        if (!user) {return res.status(404).json({message: 'User not found'});}
+
+        //validating password
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(400).json({message: 'Invalid credentials'});
+        }
+
+        // Successful login
+        res.status(200).json({
+            message: 'Login successful',
+            user: {
+                id: user._id, 
+                username: user.username, 
+                email: user.email,
+                password: user.password
+            }
+        });
+
+    } catch (error) {
+
+        res.status(500).json({message: 'Error logging in', error: error.message});
+
+    }
+};
+
+const logoutUser = async (req, res) => {
+    try {
+        // Implement logout logic if needed (e.g., token invalidation)
+        const {email} = req.body;
+        const user = await User.findOne({ email});
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // For demonstration, we'll just send a success message
+        res.status(200).json({ message: 'Logout successful' });   
+    } catch (error) {
+        res.status(500).json({ message: 'Error logging out', error: error.message });
+    }
+};  
+
+export {registerUser, loginUser , logoutUser};
